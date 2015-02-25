@@ -38,6 +38,10 @@ func NewHashTab(len uint32) *HashTab {
         return &HashTab{len: len, entries: (*[HashTabMaxLen]entry)(ptr)[:len]}
 }
 
+func (h *HashTab) Len() uint32 {
+	return h.len
+}
+
 func (h *HashTab) Set(k, v uint32) {
         var i, t uint32
         var e *entry
