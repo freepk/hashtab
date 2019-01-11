@@ -5,8 +5,8 @@ import (
 )
 
 func TestHashTab(t *testing.T) {
-	h, err := NewHashTab(10)
-	if err != nil {
+	h := NewHashTab(10)
+	if h == nil {
 		t.Fail()
 	}
 	h.Set(100, 1000)
