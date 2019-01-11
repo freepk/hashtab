@@ -11,6 +11,7 @@ type entry struct {
 }
 
 type HashTab struct {
+	size    uint64
 	mask    uint64
 	entries []entry
 }
@@ -28,7 +29,11 @@ func NewHashTab(power uint8) (*HashTab, error) {
 	size := uint64(1 << power)
 	mask := size - 1
 	entries := make([]entry, size)
-	return &HashTab{mask: mask, entries: entries}, nil
+	return &HashTab{size: size, mask: mask, entries: entries}, nil
+}
+
+func (h *HashTab) Size() uint64 {
+	return h.size
 }
 
 func (h *HashTab) GetOrSet(k, v uint64) (uint64, bool) {
