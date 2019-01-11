@@ -94,3 +94,21 @@ func (h *HashTab) Get(k uint64) uint64 {
 		i++
 	}
 }
+
+func (h *HashTab) Del(k uint64) {
+	var i, t uint64
+	var e *entry
+
+	i = k
+	for {
+		i &= h.mask
+		e = &h.entries[i]
+		t = atomic.LoadUint64(&e.key)
+		if t == k {
+			atomic.StoreUint64(&e.value, 0)
+			atomic.StoreUint64(&e.key, 0)
+			return
+		}
+		i++
+	}
+}

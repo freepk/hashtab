@@ -19,7 +19,13 @@ func TestHashTab(t *testing.T) {
 	}
 	if v, ok := h.GetOrSet(100, 1111); !ok || v != 1000 {
 		t.Log(ok, v)
-		//t.Fail()
+	}
+	h.Del(100)
+	if h.Get(100) != 0 {
+		t.Fail()
+	}
+	if v, ok := h.GetOrSet(100, 1111); ok || v != 1111 {
+		t.Log(ok, v)
 	}
 	if h.Get(50) != 0 {
 		t.Fail()

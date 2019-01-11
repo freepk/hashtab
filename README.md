@@ -1,7 +1,7 @@
 # hashtab
-Lock-free hashtable with fixed size, without delete operation.
+Lock-free hashtable.
 
-- Max size of hashtable is fixed
-- Delete operation don't exists
+Caveats:
+- Size of hashtable is fixed
 - Hashtable cannot be full(deadloop)
 - Keys cannot be equal to zero
