@@ -81,7 +81,7 @@ func (h *HashTab) Set(k, v uint64) {
 	}
 }
 
-func (h *HashTab) Get(k uint64) uint64 {
+func (h *HashTab) Get(k uint64) (uint64, bool) {
 	var i, t uint64
 	var e *entry
 
@@ -91,10 +91,10 @@ func (h *HashTab) Get(k uint64) uint64 {
 		e = &h.entries[i]
 		t = atomic.LoadUint64(&e.key)
 		if t == k {
-			return atomic.LoadUint64(&e.value)
+			return atomic.LoadUint64(&e.value), true
 		}
 		if t == 0 {
-			return 0
+			return 0, false
 		}
 		i++
 	}
@@ -112,6 +112,9 @@ func (h *HashTab) Del(k uint64) {
 		if t == k {
 			atomic.StoreUint64(&e.value, 0)
 			atomic.StoreUint64(&e.key, 0)
+			return
+		}
+		if t == 0 {
 			return
 		}
 		i++
