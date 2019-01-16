@@ -1,7 +1,6 @@
 package hashtab
 
 import (
-	"errors"
 	"sync/atomic"
 )
 
@@ -16,20 +15,19 @@ type HashTab struct {
 	entries []entry
 }
 
-var (
-	MaxPowerExceedError = errors.New("Max power exceed")
-)
+func bitmask(n uint32) uint32 {
+	n |= (n >> 1)
+	n |= (n >> 2)
+	n |= (n >> 4)
+	n |= (n >> 8)
+	n |= (n >> 16)
+	return n
+}
 
-const MaxPower = 32
-
-func NewHashTab(power uint8) (*HashTab, error) {
-	if power > MaxPower {
-		return nil, MaxPowerExceedError
-	}
-	size := uint64(1 << power)
-	mask := size - 1
-	entries := make([]entry, size)
-	return &HashTab{size: size, mask: mask, entries: entries}, nil
+func NewHashTab(size uint32) (*HashTab, error) {
+	mask := uint64(bitmask(size - 1))
+	entries := make([]entry, (mask + 1))
+	return &HashTab{size: (mask + 1), mask: mask, entries: entries}, nil
 }
 
 func (h *HashTab) Size() uint64 {
