@@ -10,12 +10,11 @@ type entry struct {
 }
 
 type HashTab struct {
-	size    uint64
 	mask    uint64
 	entries []entry
 }
 
-func bitmask(n uint32) uint32 {
+func bitmask(n int) int {
 	n |= (n >> 1)
 	n |= (n >> 2)
 	n |= (n >> 4)
@@ -24,14 +23,14 @@ func bitmask(n uint32) uint32 {
 	return n
 }
 
-func NewHashTab(size uint32) *HashTab {
-	mask := uint64(bitmask(size - 1))
+func NewHashTab(num int) *HashTab {
+	mask := uint64(bitmask(num - 1))
 	entries := make([]entry, (mask + 1))
-	return &HashTab{size: (mask + 1), mask: mask, entries: entries}
+	return &HashTab{mask: mask, entries: entries}
 }
 
-func (h *HashTab) Size() uint64 {
-	return h.size
+func (h *HashTab) Size() int {
+	return len(h.entries)
 }
 
 func (h *HashTab) GetOrSet(k, v uint64) (uint64, bool) {
