@@ -24,10 +24,10 @@ func bitmask(n uint32) uint32 {
 	return n
 }
 
-func NewHashTab(size uint32) (*HashTab, error) {
+func NewHashTab(size uint32) *HashTab {
 	mask := uint64(bitmask(size - 1))
 	entries := make([]entry, (mask + 1))
-	return &HashTab{size: (mask + 1), mask: mask, entries: entries}, nil
+	return &HashTab{size: (mask + 1), mask: mask, entries: entries}
 }
 
 func (h *HashTab) Size() uint64 {

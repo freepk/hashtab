@@ -5,10 +5,7 @@ import (
 )
 
 func TestHashTab(t *testing.T) {
-	h, err := NewHashTab(10)
-	if err != nil {
-		t.Fail()
-	}
+	h := NewHashTab(10)
 	h.Set(100, 1000)
 	h.Set(101, 1001)
 	if v, ok := h.Get(100); !ok || v != 1000 {
