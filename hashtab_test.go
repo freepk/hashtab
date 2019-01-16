@@ -2,6 +2,7 @@ package hashtab
 
 import (
 	"testing"
+	"github.com/spaolacci/murmur3"
 )
 
 func TestHashTab(t *testing.T) {
@@ -27,5 +28,21 @@ func TestHashTab(t *testing.T) {
 	}
 	if v, ok := h.Get(50); ok || v != 0 {
 		t.Fail()
+	}
+}
+
+func TestGetOrSet(t *testing.T) {
+	h := NewHashTab(16)
+	{
+		hash := murmur3.Sum64([]byte{0,1,2,3})
+		t.Log(h.GetOrSet(hash, 100))
+	}
+	{
+		hash := murmur3.Sum64([]byte{0,1,2,3})
+		t.Log(h.GetOrSet(hash, 100))
+	}
+	{
+		hash := murmur3.Sum64([]byte{0,1,2,3})
+		t.Log(h.GetOrSet(hash, 100))
 	}
 }
